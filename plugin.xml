@@ -9,7 +9,7 @@
 	<platform name="android">
 
 		<config-file target="res/xml/config.xml" parent="/*">
-			<feature name="MyDatecsSDK">
+			<feature name="plugin_dpp-350">
 				<param name="android-package" value="br.com.mytdt.print.MyDatecsSDK" />
 			</feature>
 		</config-file>
@@ -20,8 +20,8 @@
 			<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 		</config-file>
 
-		<js-module name="MyDatecsSDK" src="www/MyDatecsSDK.js">
-			<clobbers target="myDatecsSDK" />
+		<js-module name="plugin_dpp-350" src="www/MyDatecsSDK.js">
+			<clobbers target="plugin_dpp-350" />
 		</js-module>
 
 		<source-file src="src/android/com.datecs.api.jar" target-dir="libs" framework="true" />
