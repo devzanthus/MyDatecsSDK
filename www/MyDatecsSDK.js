@@ -70,11 +70,11 @@ var myDatecsSDK = {
     },
     
     printBarcode: function(qrcode, onSuccess, onError) {
-        exec(onSuccess, onError, 'MyDatecsSDK', 'printBarcode', []);
+        exec(onSuccess, onError, 'MyDatecsSDK', 'printBarcode', [qrcode]);
     },
     
     printImage: function(imagem, onSuccess, onError) {
-        exec(onSuccess, onError, 'MyDatecsSDK', 'printImage', []);
+        exec(onSuccess, onError, 'MyDatecsSDK', 'printImage', [imagem]);
     }
 };
 
