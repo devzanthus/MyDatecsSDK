@@ -210,14 +210,14 @@ public class MyPrinter {
 		});
 	}
 
-	private BluetoothSocket createBluetoothSocket(BluetoothDevice device, UUID uuid) throws IOException {
+	private BluetoothSocket createBluetoothSocket(BluetoothDevice device, UUID uuid, final CallbackContext callbackContext) throws IOException {
 		if (Build.VERSION.SDK_INT >= 10) {
 			try {
-				final Method m = device.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
-				return (BluetoothSocket) m.invoke(device, 1);
+				final Method m = device.getClass().getMethod("createRfcommSocketToServiceRecord", new Class[] { UUID.class });
+				return (BluetoothSocket) m.invoke(device, uuid);
 			} catch (Exception e) {
 				e.printStackTrace();
-				error("Falha ao criar comunicação: " + e.getMessage(), mRestart);
+				error("Falha ao criar comunicação: " + e.getMessage(), false);
 			}
 		}
 		return device.createRfcommSocketToServiceRecord(uuid);
@@ -235,22 +235,23 @@ public class MyPrinter {
 				adapter.cancelDiscovery();
 				
 				try {
-					mBluetoothSocket = createBluetoothSocket(device, uuid);
+					mBluetoothSocket = createBluetoothSocket(device, uuid, callbackContext);
 					Thread.sleep(50);
 					mBluetoothSocket.connect();
 					in = mBluetoothSocket.getInputStream();
 					out = mBluetoothSocket.getOutputStream();
 				} catch (Exception e) {
 					e.printStackTrace();
-					error("Falha ao conectar: " + e.getMessage(), mRestart);
+					error("Falha ao conectar: " + e.getMessage(), false);
 					return;
 				}
 				
 				try {
 					initPrinter(in, out, callbackContext);
+					toast("Impressora Conectada!");
 				} catch (IOException e) {
 					e.printStackTrace();
-					error("Falha ao inicializar: " + e.getMessage(), mRestart);
+					error("Falha ao inicializar: " + e.getMessage(), false);
 					return;
 				}
 			}
